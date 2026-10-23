@@ -1,0 +1,143 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local camera = workspace.CurrentCamera
+
+-- 1) إنشاء الشاشة الرئيسية
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "UltimateGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+-- 2) الإطار الرئيسي
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 300, 0, 330) 
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -165)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainFrame
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(150, 0, 0)
+stroke.Thickness = 1.5
+stroke.Parent = mainFrame
+
+-- 3) شريط العنوان
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 35)
+titleBar.BackgroundColor3 = Color3.fromRGB(40, 0, 0)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = mainFrame
+local titleCorner = Instance.new("UICorner")
+titleCorner.CornerRadius = UDim.new(0, 8)
+titleCorner.Parent = titleBar
+
+local nameLabel = Instance.new("TextLabel")
+nameLabel.Size = UDim2.new(1, -90, 1, 0)
+nameLabel.Position = UDim2.new(0, 10, 0, 0)
+nameLabel.BackgroundTransparency = 1
+nameLabel.Text = "🩸 " .. player.Name
+nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+nameLabel.TextXAlignment = Enum.TextXAlignment.Left
+nameLabel.Font = Enum.Font.GothamBold
+nameLabel.TextSize = 14
+nameLabel.Parent = titleBar
+
+local minBtn = Instance.new("TextButton")
+minBtn.Size = UDim2.new(0, 25, 0, 25)
+minBtn.Position = UDim2.new(1, -60, 0, 5)
+minBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+minBtn.Text = "−"
+minBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+minBtn.Font = Enum.Font.GothamBold
+minBtn.TextSize = 18
+minBtn.Parent = titleBar
+local minCorner = Instance.new("UICorner")
+minCorner.CornerRadius = UDim.new(0, 4)
+minCorner.Parent = minBtn
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 25, 0, 25)
+closeBtn.Position = UDim2.new(1, -30, 0, 5)
+closeBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+closeBtn.Text = "✕"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 14
+closeBtn.Parent = titleBar
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 4)
+closeCorner.Parent = closeBtn
+
+-- ═══════════════════════════════════════
+-- 4) الشكل الأول (الكبير)
+-- ═══════════════════════════════════════
+local fullFrame = Instance.new("Frame")
+fullFrame.Size = UDim2.new(1, 0, 1, -35)
+fullFrame.Position = UDim2.new(0, 0, 0, 35)
+fullFrame.BackgroundTransparency = 1
+fullFrame.Parent = mainFrame
+
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Size = UDim2.new(1, -20, 0, 25)
+speedLabel.Position = UDim2.new(0, 10, 0, 10)
+speedLabel.BackgroundTransparency = 1
+speedLabel.Text = "السرعة الحالية: 16"
+speedLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+speedLabel.TextXAlignment = Enum.TextXAlignment.Left
+speedLabel.Font = Enum.Font.Gotham
+speedLabel.TextSize = 13
+speedLabel.Parent = fullFrame
+
+local speedBox = Instance.new("TextBox")
+speedBox.Size = UDim2.new(1, -100, 0, 35)
+speedBox.Position = UDim2.new(0, 10, 0, 40)
+speedBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+speedBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedBox.PlaceholderText = "اكتب السرعة"
+speedBox.Text = "16"
+speedBox.Font = Enum.Font.Gotham
+speedBox.TextSize = 13
+speedBox.Parent = fullFrame
+
+local applyBtn = Instance.new("TextButton")
+applyBtn.Size = UDim2.new(0, 80, 0, 35)
+applyBtn.Position = UDim2.new(1, -90, 0, 40)
+applyBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+applyBtn.Text = "تطبيق"
+applyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+applyBtn.Font = Enum.Font.GothamBold
+applyBtn.TextSize = 13
+applyBtn.Parent = fullFrame
+
+local flyBtnFull = Instance.new("TextButton")
+flyBtnFull.Size = UDim2.new(1, -20, 0, 40)
+flyBtnFull.Position = UDim2.new(0, 10, 0, 90)
+flyBtnFull.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+flyBtnFull.Text = "تفعيل الطيران ✈️"
+flyBtnFull.TextColor3 = Color3.fromRGB(255, 255, 255)
+flyBtnFull.Font = Enum.Font.GothamBold
+flyBtnFull.TextSize = 14
+flyBtnFull.Parent = fullFrame
+
+local noclipBtnFull = Instance.new("TextButton")
+noclipBtnFull.Size = UDim2.new(0.48, 0, 0, 35)
+noclipBtnFull.Position = UDim2.new(0, 10, 0, 140)
+noclipBtnFull.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+noclipBtnFull.Text = "Noclip: OFF"
+noclipBtnFull.TextColor3 = Color3.fromRGB(255, 255, 255)
+noclipBtnFull.Font = Enum.Font.GothamBold
+noclipBtnFull.TextSize = 12
+noclipBtnFull.Parent = fullFrame
+
+local infJumpBtnFull = Instance.new("TextButton")
+infJumpBtnFull.Size = UDim2.new(0.48, 0, 0, 35)
+infJumpBtnFull.Position = UDim2.new(0.52, -10, 0, 140)
+infJumpBtnFull.BackgroundColor3 = Color3.fr
