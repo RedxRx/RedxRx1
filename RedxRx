@@ -343,40 +343,62 @@ end)
 local flying = false
 local bodyVelocity, bodyGyro
 
-local function toggleFly()
-    flying = not flying
-    local char = player.Character
-    if not char then return end
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    local hum = char:FindFirstChildOfClass("Humanoid")
-    if not hrp or not hum then return end
-
-    if flying then
-        hum.PlatformStand = true
-        bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        bodyVelocity.Velocity = Vector3.zero
-        bodyVelocity.Parent = hrp
-        
-        bodyGyro = Instance.new("BodyGyro")
-        bodyGyro.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
-        bodyGyro.P = 3000
-        bodyGyro.D = 100
-        bodyGyro.CFrame = hrp.CFrame
-        bodyGyro.Parent = hrp
-        
+local function setFlyUI(active)
+    if active then
         flyBtnFull.Text = "إيقاف الطيران 🛑"
         flyBtnFull.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
         flyBtnMini.Text = "STOP"
         flyBtnMini.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
     else
-        hum.PlatformStand = false
-        if bodyVelocity then bodyVelocity:Destroy() end
-        if bodyGyro then bodyGyro:Destroy() end
         flyBtnFull.Text = "تفعيل الطيران ✈️"
         flyBtnFull.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
         flyBtnMini.Text = "FLY"
         flyBtnMini.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+    end
+end
+
+local function clearFlyObjects()
+    if bodyVelocity then bodyVelocity:Destroy() bodyVelocity = nil end
+    if bodyGyro then bodyGyro:Destroy() bodyGyro = nil end
+end
+
+-- بتشغّل الطيران على أي شخصية (تتنادى أول مرة وبعد كل Respawn)
+local function startFly(char)
+    local hrp = char:WaitForChild("HumanoidRootPart", 5)
+    local hum = char:WaitForChild("Humanoid", 5)
+    if not hrp or not hum then return end
+    if not flying then return end -- لو اتقفل الطيران وإحنا مستنيين
+
+    clearFlyObjects()
+    hum.PlatformStand = true
+
+    bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    bodyVelocity.Velocity = Vector3.zero
+    bodyVelocity.Parent = hrp
+
+    bodyGyro = Instance.new("BodyGyro")
+    bodyGyro.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+    bodyGyro.P = 3000
+    bodyGyro.D = 100
+    bodyGyro.CFrame = hrp.CFrame
+    bodyGyro.Parent = hrp
+end
+
+local function toggleFly()
+    flying = not flying
+    local char = player.Character
+
+    if flying then
+        setFlyUI(true)
+        if char then startFly(char) end
+    else
+        setFlyUI(false)
+        clearFlyObjects()
+        if char then
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            if hum then hum.PlatformStand = false end
+        end
     end
 end
 
@@ -489,5 +511,31 @@ UserInputService.JumpRequest:Connect(function()
         if hum then
             hum:ChangeState(Enum.HumanoidStateType.Jumping)
         end
+    end
+end)
+
+-- ═══════════════════════════════════════
+-- 11) 🔁 الاحتفاظ بالقدرات بعد الموت (Respawn)
+-- ═══════════════════════════════════════
+player.CharacterAdded:Connect(function(char)
+    local hum = char:WaitForChild("Humanoid")
+    char:WaitForChild("HumanoidRootPart")
+
+    -- رجّع السرعة اللي كنت حاططها
+    hum.WalkSpeed = currentWalkSpeed
+
+    -- لو الطيران كان شغال، شغّله تاني على الشخصية الجديدة
+    if flying then
+        startFly(char)
+    end
+end)
+
+-- لو اللعبة بترجّع السرعة لوحدها، نثبّتها على اللي اخترته
+RunService.Heartbeat:Connect(function()
+    if currentWalkSpeed == 16 then return end
+    local char = player.Character
+    local hum = char and char:FindFirstChildOfClass("Humanoid")
+    if hum and hum.WalkSpeed ~= currentWalkSpeed then
+        hum.WalkSpeed = currentWalkSpeed
     end
 end)
