@@ -140,4 +140,354 @@ noclipBtnFull.Parent = fullFrame
 local infJumpBtnFull = Instance.new("TextButton")
 infJumpBtnFull.Size = UDim2.new(0.48, 0, 0, 35)
 infJumpBtnFull.Position = UDim2.new(0.52, -10, 0, 140)
-infJumpBtnFull.BackgroundColor3 = Color3.fr
+infJumpBtnFull.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+infJumpBtnFull.Text = "Inf Jump: OFF"
+infJumpBtnFull.TextColor3 = Color3.fromRGB(255, 255, 255)
+infJumpBtnFull.Font = Enum.Font.GothamBold
+infJumpBtnFull.TextSize = 12
+infJumpBtnFull.Parent = fullFrame
+
+-- ═══════════════════════════════════════
+-- 5) الشكل الثاني (المصغر)
+-- ═══════════════════════════════════════
+local miniFrame = Instance.new("Frame")
+miniFrame.Size = UDim2.new(1, 0, 1, -35)
+miniFrame.Position = UDim2.new(0, 0, 0, 35)
+miniFrame.BackgroundTransparency = 1
+miniFrame.Visible = false
+miniFrame.Parent = mainFrame
+
+local wsLabel = Instance.new("TextLabel")
+wsLabel.Size = UDim2.new(0, 80, 0, 30)
+wsLabel.Position = UDim2.new(0, 10, 0, 5)
+wsLabel.BackgroundTransparency = 1
+wsLabel.Text = "Walk: 16"
+wsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+wsLabel.TextXAlignment = Enum.TextXAlignment.Left
+wsLabel.Font = Enum.Font.GothamBold
+wsLabel.Parent = miniFrame
+
+local wsMinus = Instance.new("TextButton")
+wsMinus.Size = UDim2.new(0, 30, 0, 30)
+wsMinus.Position = UDim2.new(0, 95, 0, 5)
+wsMinus.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+wsMinus.Text = "-"
+wsMinus.TextColor3 = Color3.fromRGB(255, 255, 255)
+wsMinus.Font = Enum.Font.GothamBold
+wsMinus.Parent = miniFrame
+
+local wsPlus = Instance.new("TextButton")
+wsPlus.Size = UDim2.new(0, 30, 0, 30)
+wsPlus.Position = UDim2.new(0, 130, 0, 5)
+wsPlus.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+wsPlus.Text = "+"
+wsPlus.TextColor3 = Color3.fromRGB(255, 255, 255)
+wsPlus.Font = Enum.Font.GothamBold
+wsPlus.Parent = miniFrame
+
+local fsLabel = Instance.new("TextLabel")
+fsLabel.Size = UDim2.new(0, 80, 0, 30)
+fsLabel.Position = UDim2.new(0, 10, 0, 40)
+fsLabel.BackgroundTransparency = 1
+fsLabel.Text = "Fly: 50"
+fsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+fsLabel.TextXAlignment = Enum.TextXAlignment.Left
+fsLabel.Font = Enum.Font.GothamBold
+fsLabel.Parent = miniFrame
+
+local fsMinus = Instance.new("TextButton")
+fsMinus.Size = UDim2.new(0, 30, 0, 30)
+fsMinus.Position = UDim2.new(0, 95, 0, 40)
+fsMinus.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+fsMinus.Text = "-"
+fsMinus.TextColor3 = Color3.fromRGB(255, 255, 255)
+fsMinus.Font = Enum.Font.GothamBold
+fsMinus.Parent = miniFrame
+
+local fsPlus = Instance.new("TextButton")
+fsPlus.Size = UDim2.new(0, 30, 0, 30)
+fsPlus.Position = UDim2.new(0, 130, 0, 40)
+fsPlus.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+fsPlus.Text = "+"
+fsPlus.TextColor3 = Color3.fromRGB(255, 255, 255)
+fsPlus.Font = Enum.Font.GothamBold
+fsPlus.Parent = miniFrame
+
+local flyBtnMini = Instance.new("TextButton")
+flyBtnMini.Size = UDim2.new(0, 100, 0, 30)
+flyBtnMini.Position = UDim2.new(1, -110, 0, 20)
+flyBtnMini.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+flyBtnMini.Text = "FLY"
+flyBtnMini.TextColor3 = Color3.fromRGB(255, 255, 255)
+flyBtnMini.Font = Enum.Font.GothamBold
+flyBtnMini.Parent = miniFrame
+
+local noclipBtnMini = Instance.new("TextButton")
+noclipBtnMini.Size = UDim2.new(0.48, 0, 0, 30)
+noclipBtnMini.Position = UDim2.new(0, 10, 0, 80)
+noclipBtnMini.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+noclipBtnMini.Text = "Noclip: OFF"
+noclipBtnMini.TextColor3 = Color3.fromRGB(255, 255, 255)
+noclipBtnMini.Font = Enum.Font.GothamBold
+noclipBtnMini.TextSize = 12
+noclipBtnMini.Parent = miniFrame
+
+local infJumpBtnMini = Instance.new("TextButton")
+infJumpBtnMini.Size = UDim2.new(0.48, 0, 0, 30)
+infJumpBtnMini.Position = UDim2.new(0.52, -10, 0, 80)
+infJumpBtnMini.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+infJumpBtnMini.Text = "Inf Jump: OFF"
+infJumpBtnMini.TextColor3 = Color3.fromRGB(255, 255, 255)
+infJumpBtnMini.Font = Enum.Font.GothamBold
+infJumpBtnMini.TextSize = 12
+infJumpBtnMini.Parent = miniFrame
+
+-- ═══════════════════════════════════════
+-- 6) نظام التصغير
+-- ═══════════════════════════════════════
+local currentState = 1
+
+minBtn.MouseButton1Click:Connect(function()
+    if currentState == 1 then
+        currentState = 2
+        fullFrame.Visible = false
+        miniFrame.Visible = true
+        mainFrame.Size = UDim2.new(0, 300, 0, 160)
+        mainFrame.Position = UDim2.new(0.5, -150, 0.5, -80)
+        minBtn.Text = "−"
+        minBtn.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
+        
+    elseif currentState == 2 then
+        currentState = 3
+        miniFrame.Visible = false
+        nameLabel.Visible = false
+        closeBtn.Visible = false
+        mainFrame.Size = UDim2.new(0, 50, 0, 50)
+        mainFrame.Position = UDim2.new(0.5, -25, 0.5, -25)
+        
+        minBtn.Size = UDim2.new(1, 0, 1, 0)
+        minBtn.Position = UDim2.new(0, 0, 0, 0)
+        minBtn.Text = "+"
+        minBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        
+    elseif currentState == 3 then
+        currentState = 1
+        fullFrame.Visible = true
+        nameLabel.Visible = true
+        closeBtn.Visible = true
+        mainFrame.Size = UDim2.new(0, 300, 0, 330)
+        mainFrame.Position = UDim2.new(0.5, -150, 0.5, -165)
+        
+        minBtn.Size = UDim2.new(0, 25, 0, 25)
+        minBtn.Position = UDim2.new(1, -60, 0, 5)
+        minBtn.Text = "−"
+        minBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- ═══════════════════════════════════════
+-- 7) برمجة السرعات
+-- ═══════════════════════════════════════
+local currentWalkSpeed = 16
+local currentFlySpeed = 50
+
+wsPlus.MouseButton1Click:Connect(function()
+    currentWalkSpeed = currentWalkSpeed + 10
+    wsLabel.Text = "Walk: " .. currentWalkSpeed
+    if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+        player.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = currentWalkSpeed
+    end
+end)
+
+wsMinus.MouseButton1Click:Connect(function()
+    if currentWalkSpeed > 16 then
+        currentWalkSpeed = currentWalkSpeed - 10
+        wsLabel.Text = "Walk: " .. currentWalkSpeed
+        if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+            player.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = currentWalkSpeed
+        end
+    end
+end)
+
+fsPlus.MouseButton1Click:Connect(function()
+    currentFlySpeed = currentFlySpeed + 10
+    fsLabel.Text = "Fly: " .. currentFlySpeed
+end)
+
+fsMinus.MouseButton1Click:Connect(function()
+    if currentFlySpeed > 10 then
+        currentFlySpeed = currentFlySpeed - 10
+        fsLabel.Text = "Fly: " .. currentFlySpeed
+    end
+end)
+
+applyBtn.MouseButton1Click:Connect(function()
+    local speed = tonumber(speedBox.Text)
+    if speed and speed > 0 then
+        currentWalkSpeed = speed
+        wsLabel.Text = "Walk: " .. speed
+        if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+            player.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = speed
+        end
+        speedLabel.Text = "السرعة الحالية: " .. speed
+    end
+end)
+
+-- ═══════════════════════════════════════
+-- 8) الطيران
+-- ═══════════════════════════════════════
+local flying = false
+local bodyVelocity, bodyGyro
+
+local function toggleFly()
+    flying = not flying
+    local char = player.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if not hrp or not hum then return end
+
+    if flying then
+        hum.PlatformStand = true
+        bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+        bodyVelocity.Velocity = Vector3.zero
+        bodyVelocity.Parent = hrp
+        
+        bodyGyro = Instance.new("BodyGyro")
+        bodyGyro.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+        bodyGyro.P = 3000
+        bodyGyro.D = 100
+        bodyGyro.CFrame = hrp.CFrame
+        bodyGyro.Parent = hrp
+        
+        flyBtnFull.Text = "إيقاف الطيران 🛑"
+        flyBtnFull.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        flyBtnMini.Text = "STOP"
+        flyBtnMini.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    else
+        hum.PlatformStand = false
+        if bodyVelocity then bodyVelocity:Destroy() end
+        if bodyGyro then bodyGyro:Destroy() end
+        flyBtnFull.Text = "تفعيل الطيران ✈️"
+        flyBtnFull.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+        flyBtnMini.Text = "FLY"
+        flyBtnMini.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+    end
+end
+
+flyBtnFull.MouseButton1Click:Connect(toggleFly)
+flyBtnMini.MouseButton1Click:Connect(toggleFly)
+
+-- 🌟 التعديل الجديد: حركة طيران مبنية على اتجاه الكاميرا (لو بصيت فوق يطلع فوق، ولو بصيت تحت ينزل تحت) 🌟
+RunService.RenderStepped:Connect(function()
+    if flying and bodyVelocity and bodyGyro then
+        local char = player.Character
+        if not char then return end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hum then return end
+        
+        local moveDir = hum.MoveDirection
+        local velocity = Vector3.zero
+        
+        if moveDir.Magnitude > 0 then
+            local camLook = camera.CFrame.LookVector
+            local camRight = camera.CFrame.RightVector
+            
+            -- بنشوف اتجاه العصا بالنسبة للكاميرا
+            local flatLook = Vector3.new(camLook.X, 0, camLook.Z).Unit
+            local forwardInput = moveDir:Dot(flatLook)
+            local rightInput = moveDir:Dot(camRight)
+            
+            -- السحر كله هنا: دمجنا اتجاه نظرك (Y) مع اتجاه حركتك عشان يطير في نفس الاتجاه اللي بتبصله
+            velocity = (camLook * forwardInput + camRight * rightInput).Unit * currentFlySpeed
+        end
+        
+        -- دعم أزرار الكيبورد لو حد بيلعب على كمبيوتر
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+            velocity = velocity - Vector3.new(0, currentFlySpeed, 0) 
+        elseif UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then
+            velocity = velocity + Vector3.new(0, currentFlySpeed, 0)
+        end
+        
+        bodyVelocity.Velocity = velocity
+        bodyGyro.CFrame = camera.CFrame
+    end
+end)
+
+-- ═══════════════════════════════════════
+-- 9) ميزة Noclip
+-- ═══════════════════════════════════════
+local noclipEnabled = false
+
+local function updateNoclipUI()
+    if noclipEnabled then
+        noclipBtnFull.Text = "Noclip: ON"
+        noclipBtnFull.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        noclipBtnMini.Text = "Noclip: ON"
+        noclipBtnMini.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    else
+        noclipBtnFull.Text = "Noclip: OFF"
+        noclipBtnFull.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        noclipBtnMini.Text = "Noclip: OFF"
+        noclipBtnMini.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    end
+end
+
+local function toggleNoclip()
+    noclipEnabled = not noclipEnabled
+    updateNoclipUI()
+end
+
+noclipBtnFull.MouseButton1Click:Connect(toggleNoclip)
+noclipBtnMini.MouseButton1Click:Connect(toggleNoclip)
+
+RunService.Stepped:Connect(function()
+    if noclipEnabled and player.Character then
+        for _, part in pairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") and part.CanCollide == true then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════
+-- 10) ميزة Infinite Jump
+-- ═══════════════════════════════════════
+local infJumpEnabled = false
+
+local function updateInfJumpUI()
+    if infJumpEnabled then
+        infJumpBtnFull.Text = "Inf Jump: ON"
+        infJumpBtnFull.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        infJumpBtnMini.Text = "Inf Jump: ON"
+        infJumpBtnMini.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    else
+        infJumpBtnFull.Text = "Inf Jump: OFF"
+        infJumpBtnFull.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        infJumpBtnMini.Text = "Inf Jump: OFF"
+        infJumpBtnMini.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    end
+end
+
+local function toggleInfJump()
+    infJumpEnabled = not infJumpEnabled
+    updateInfJumpUI()
+end
+
+infJumpBtnFull.MouseButton1Click:Connect(toggleInfJump)
+infJumpBtnMini.MouseButton1Click:Connect(toggleInfJump)
+
+UserInputService.JumpRequest:Connect(function()
+    if infJumpEnabled and player.Character then
+        local hum = player.Character:FindFirstChildOfClass("Humanoid")
+        if hum then
+            hum:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
