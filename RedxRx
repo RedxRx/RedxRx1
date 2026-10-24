@@ -4,16 +4,17 @@ local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local camera = workspace.CurrentCamera
 
--- 1) إنشاء الشاشة الرئيسية
+-- إنشاء الشاشة الرئيسية
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "UltimateGUI"
+screenGui.Name = "UltimateGUI_Blood"
 screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
 screenGui.Parent = playerGui
 
--- 2) الإطار الرئيسي
+-- الإطار الرئيسي
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 330) 
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -165)
+mainFrame.Size = UDim2.new(0, 300, 0, 380)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -190)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
@@ -29,7 +30,7 @@ stroke.Color = Color3.fromRGB(150, 0, 0)
 stroke.Thickness = 1.5
 stroke.Parent = mainFrame
 
--- 3) شريط العنوان
+-- شريط العنوان
 local titleBar = Instance.new("Frame")
 titleBar.Size = UDim2.new(1, 0, 0, 35)
 titleBar.BackgroundColor3 = Color3.fromRGB(40, 0, 0)
@@ -76,9 +77,7 @@ local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(0, 4)
 closeCorner.Parent = closeBtn
 
--- ═══════════════════════════════════════
--- 4) الشكل الأول (الكبير)
--- ═══════════════════════════════════════
+-- الشكل الأول (الكبير)
 local fullFrame = Instance.new("Frame")
 fullFrame.Size = UDim2.new(1, 0, 1, -35)
 fullFrame.Position = UDim2.new(0, 0, 0, 35)
@@ -147,9 +146,39 @@ infJumpBtnFull.Font = Enum.Font.GothamBold
 infJumpBtnFull.TextSize = 12
 infJumpBtnFull.Parent = fullFrame
 
--- ═══════════════════════════════════════
--- 5) الشكل الثاني (المصغر)
--- ═══════════════════════════════════════
+local powerJumpLabel = Instance.new("TextLabel")
+powerJumpLabel.Size = UDim2.new(1, -20, 0, 25)
+powerJumpLabel.Position = UDim2.new(0, 10, 0, 185)
+powerJumpLabel.BackgroundTransparency = 1
+powerJumpLabel.Text = "قوة النط (Power Jump): 50"
+powerJumpLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+powerJumpLabel.TextXAlignment = Enum.TextXAlignment.Left
+powerJumpLabel.Font = Enum.Font.Gotham
+powerJumpLabel.TextSize = 13
+powerJumpLabel.Parent = fullFrame
+
+local powerJumpBox = Instance.new("TextBox")
+powerJumpBox.Size = UDim2.new(1, -100, 0, 35)
+powerJumpBox.Position = UDim2.new(0, 10, 0, 215)
+powerJumpBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+powerJumpBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+powerJumpBox.PlaceholderText = "اكتب قوة النط"
+powerJumpBox.Text = "50"
+powerJumpBox.Font = Enum.Font.Gotham
+powerJumpBox.TextSize = 13
+powerJumpBox.Parent = fullFrame
+
+local applyPowerJumpBtn = Instance.new("TextButton")
+applyPowerJumpBtn.Size = UDim2.new(0, 80, 0, 35)
+applyPowerJumpBtn.Position = UDim2.new(1, -90, 0, 215)
+applyPowerJumpBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+applyPowerJumpBtn.Text = "تطبيق"
+applyPowerJumpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+applyPowerJumpBtn.Font = Enum.Font.GothamBold
+applyPowerJumpBtn.TextSize = 13
+applyPowerJumpBtn.Parent = fullFrame
+
+-- الشكل الثاني (المصغر)
 local miniFrame = Instance.new("Frame")
 miniFrame.Size = UDim2.new(1, 0, 1, -35)
 miniFrame.Position = UDim2.new(0, 0, 0, 35)
@@ -242,9 +271,7 @@ infJumpBtnMini.Font = Enum.Font.GothamBold
 infJumpBtnMini.TextSize = 12
 infJumpBtnMini.Parent = miniFrame
 
--- ═══════════════════════════════════════
--- 6) نظام التصغير
--- ═══════════════════════════════════════
+-- نظام التصغير
 local currentState = 1
 
 minBtn.MouseButton1Click:Connect(function()
@@ -275,8 +302,8 @@ minBtn.MouseButton1Click:Connect(function()
         fullFrame.Visible = true
         nameLabel.Visible = true
         closeBtn.Visible = true
-        mainFrame.Size = UDim2.new(0, 300, 0, 330)
-        mainFrame.Position = UDim2.new(0.5, -150, 0.5, -165)
+        mainFrame.Size = UDim2.new(0, 300, 0, 380)
+        mainFrame.Position = UDim2.new(0.5, -150, 0.5, -190)
         
         minBtn.Size = UDim2.new(0, 25, 0, 25)
         minBtn.Position = UDim2.new(1, -60, 0, 5)
@@ -289,11 +316,10 @@ closeBtn.MouseButton1Click:Connect(function()
     screenGui:Destroy()
 end)
 
--- ═══════════════════════════════════════
--- 7) برمجة السرعات
--- ═══════════════════════════════════════
+-- برمجة السرعات
 local currentWalkSpeed = 16
 local currentFlySpeed = 50
+local currentJumpPower = 50
 
 wsPlus.MouseButton1Click:Connect(function()
     currentWalkSpeed = currentWalkSpeed + 10
@@ -337,9 +363,20 @@ applyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- ═══════════════════════════════════════
--- 8) الطيران
--- ═══════════════════════════════════════
+applyPowerJumpBtn.MouseButton1Click:Connect(function()
+    local jumpPower = tonumber(powerJumpBox.Text)
+    if jumpPower and jumpPower > 0 then
+        currentJumpPower = jumpPower
+        powerJumpLabel.Text = "قوة النط (Power Jump): " .. jumpPower
+        if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+            local hum = player.Character:FindFirstChildOfClass("Humanoid")
+            hum.UseJumpPower = true
+            hum.JumpPower = jumpPower
+        end
+    end
+end)
+
+-- الطيران
 local flying = false
 local bodyVelocity, bodyGyro
 
@@ -362,12 +399,11 @@ local function clearFlyObjects()
     if bodyGyro then bodyGyro:Destroy() bodyGyro = nil end
 end
 
--- بتشغّل الطيران على أي شخصية (تتنادى أول مرة وبعد كل Respawn)
 local function startFly(char)
     local hrp = char:WaitForChild("HumanoidRootPart", 5)
     local hum = char:WaitForChild("Humanoid", 5)
     if not hrp or not hum then return end
-    if not flying then return end -- لو اتقفل الطيران وإحنا مستنيين
+    if not flying then return end
 
     clearFlyObjects()
     hum.PlatformStand = true
@@ -405,7 +441,6 @@ end
 flyBtnFull.MouseButton1Click:Connect(toggleFly)
 flyBtnMini.MouseButton1Click:Connect(toggleFly)
 
--- 🌟 التعديل الجديد: حركة طيران مبنية على اتجاه الكاميرا (لو بصيت فوق يطلع فوق، ولو بصيت تحت ينزل تحت) 🌟
 RunService.RenderStepped:Connect(function()
     if flying and bodyVelocity and bodyGyro then
         local char = player.Character
@@ -420,16 +455,13 @@ RunService.RenderStepped:Connect(function()
             local camLook = camera.CFrame.LookVector
             local camRight = camera.CFrame.RightVector
             
-            -- بنشوف اتجاه العصا بالنسبة للكاميرا
             local flatLook = Vector3.new(camLook.X, 0, camLook.Z).Unit
             local forwardInput = moveDir:Dot(flatLook)
             local rightInput = moveDir:Dot(camRight)
             
-            -- السحر كله هنا: دمجنا اتجاه نظرك (Y) مع اتجاه حركتك عشان يطير في نفس الاتجاه اللي بتبصله
             velocity = (camLook * forwardInput + camRight * rightInput).Unit * currentFlySpeed
         end
         
-        -- دعم أزرار الكيبورد لو حد بيلعب على كمبيوتر
         if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
             velocity = velocity - Vector3.new(0, currentFlySpeed, 0) 
         elseif UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then
@@ -441,9 +473,7 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
--- ═══════════════════════════════════════
--- 9) ميزة Noclip
--- ═══════════════════════════════════════
+-- Noclip
 local noclipEnabled = false
 
 local function updateNoclipUI()
@@ -478,9 +508,7 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- ═══════════════════════════════════════
--- 10) ميزة Infinite Jump
--- ═══════════════════════════════════════
+-- Infinite Jump
 local infJumpEnabled = false
 
 local function updateInfJumpUI()
@@ -514,28 +542,31 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
--- ═══════════════════════════════════════
--- 11) 🔁 الاحتفاظ بالقدرات بعد الموت (Respawn)
--- ═══════════════════════════════════════
+-- الاحتفاظ بالقدرات بعد الموت
 player.CharacterAdded:Connect(function(char)
     local hum = char:WaitForChild("Humanoid")
     char:WaitForChild("HumanoidRootPart")
 
-    -- رجّع السرعة اللي كنت حاططها
     hum.WalkSpeed = currentWalkSpeed
+    hum.UseJumpPower = true
+    hum.JumpPower = currentJumpPower
 
-    -- لو الطيران كان شغال، شغّله تاني على الشخصية الجديدة
     if flying then
         startFly(char)
     end
 end)
 
--- لو اللعبة بترجّع السرعة لوحدها، نثبّتها على اللي اخترته
+-- تثبيت السرعة وقوة النط لو اللعبة حاولت تغيرهم
 RunService.Heartbeat:Connect(function()
-    if currentWalkSpeed == 16 then return end
     local char = player.Character
     local hum = char and char:FindFirstChildOfClass("Humanoid")
-    if hum and hum.WalkSpeed ~= currentWalkSpeed then
-        hum.WalkSpeed = currentWalkSpeed
+    
+    if hum then
+        if currentWalkSpeed ~= 16 and hum.WalkSpeed ~= currentWalkSpeed then
+            hum.WalkSpeed = currentWalkSpeed
+        end
+        if hum.JumpPower ~= currentJumpPower and hum.UseJumpPower == true then
+            hum.JumpPower = currentJumpPower
+        end
     end
 end)
